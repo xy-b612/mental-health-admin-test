@@ -1,0 +1,13 @@
+# Python 缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# 临时文件
+_xlsx_dump.txt
+_read_xlsx.py
+*.bak
+~$*
+
+# 测试报告（含 token，不上传；运行 pytest --html 重新生成）
+report.html
