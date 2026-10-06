@@ -25,7 +25,8 @@
 │   ├── test_register.py     # 注册接口
 │   ├── test_diary.py        # 情绪日记接口
 │   ├── test_article.py      # 知识文章接口
-│   └── test_session.py      # 心理咨询接口
+│   ├── test_session.py      # 心理咨询接口
+│   └── allure-report.html   # Allure 可视化测试报告（单文件，双击打开）
 └── image/                   # 测试截图
 ```
 
@@ -43,7 +44,8 @@
 ### 环境准备
 
 ```bash
-pip install requests pytest pytest-html
+pip install requests pytest allure-pytest
+# Allure 命令行工具需单独安装：https://github.com/allure-framework/allure2/releases
 ```
 
 ### 配置测试账号
@@ -59,9 +61,12 @@ TEST_PASSWORD = "你的测试密码"
 
 ```bash
 cd api_automation
-pytest -v                                # 运行所有用例
-pytest --html=report.html --self-contained-html   # 生成 HTML 报告
+pytest -v                                          # 运行所有用例
+pytest --alluredir=./allure-results                # 运行并生成 Allure 数据
+allure generate ./allure-results -o ./allure-report --single-file   # 生成单文件 HTML 报告
 ```
+
+> 用例按 `@allure.feature`（模块）+ `@allure.story`（子功能）分层，报告可按模块/严重级别筛选。
 
 ### 覆盖范围
 
@@ -85,5 +90,5 @@ pytest --html=report.html --self-contained-html   # 生成 HTML 报告
 ## 🛠 技术栈
 
 - Python 3.10 + pytest + requests
-- pytest-html（测试报告）
+- Allure（可视化测试报告，feature/story 分层）
 - 被测系统：Vue 3 心理健康平台（后端为课程方部署的外部服务）

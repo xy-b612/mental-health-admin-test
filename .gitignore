@@ -9,5 +9,9 @@ _read_xlsx.py
 *.bak
 ~$*
 
-# 测试报告（含 token，不上传；运行 pytest --html 重新生成）
+# pytest-html 报告（含 token，不上传；运行 pytest --html 重新生成）
 report.html
+
+# allure 原始数据与中间报告（可重新生成；最终单文件报告提交 allure-report.html）
+allure-results/
+allure-report/
