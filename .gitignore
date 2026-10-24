@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 
+# IDE
+.idea/
+.vscode/
+
 # 临时文件
 _xlsx_dump.txt
 _read_xlsx.py

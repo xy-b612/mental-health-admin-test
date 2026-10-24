@@ -82,9 +82,9 @@ def test_article_detail_emptyId(token):
         headers={"token": token},
         timeout=10,
     )
-    assert resp.status_code == 200          # 后端统一 200
+    assert resp.status_code == 200  # 后端统一 200
     data = resp.json()
-    assert data["code"] != CODE_SUCCESS     # 业务失败
+    assert data["code"] != CODE_SUCCESS  # 业务失败
 
 
 @allure.feature("知识文章")
@@ -331,3 +331,29 @@ def test_article_delete_emptyId(token):
     assert resp.status_code == 200
     data = resp.json()
     assert data["code"] != CODE_SUCCESS
+
+
+@allure.feature("知识文章")
+@allure.story("权限校验（越权）")
+@allure.title("IF_ARTICLE_014 普通用户越权新增文章（BUG-010）")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.description(
+    "已知缺陷：后端未校验角色，普通用户（userType=1）可通过接口创建后台文章。"
+    "本用例持续红，用于缺陷回归。注意：用例前提是 config.py 中配置的账号为普通用户"
+)
+def test_article_create_by_normal_user(token):
+    """IF_ARTICLE_014 用普通用户 Token 调 POST /knowledge/article，预期应被拒绝"""
+    resp = requests.post(
+        BASE_URL + "/knowledge/article",
+        headers={"token": token},
+        json={
+            "title": "普通用户测试文章",
+            "categoryId": 1,
+            "content": "测试内容",
+            "summary": "测试摘要",
+        },
+        timeout=10,
+    )
+    assert resp.status_code == 200, f"HTTP状态异常：{resp.status_code}"
+    data = resp.json()
+    assert data["code"] != CODE_SUCCESS, f"普通用户新增文章成功（越权）：{data}"
