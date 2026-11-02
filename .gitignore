@@ -7,6 +7,13 @@ __pycache__/
 .idea/
 .vscode/
 
+# Python 虚拟环境
+.venv/
+venv/
+
+# 本地配置（含真实测试账号，不入库）
+config_local.py
+
 # 临时文件
 _xlsx_dump.txt
 _read_xlsx.py
