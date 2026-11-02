@@ -1,10 +1,8 @@
 # AI心理助手（mental-health-admin）测试项目
- [![API Automation Test](https://github.com/xy-b612/mental-health-admin-test/actions/workflows/api-test.yml/badge.svg)]
-  (https://github.com/xy-b612/mental-health-admin-test/actions/workflows/api-test.yml)
 
-  📊 **[在线测试报告](https://xy-b612.github.io/mental-health-admin-test/)**
+[![API Automation Test](https://github.com/xy-b612/mental-health-admin-test/actions/workflows/api-test.yml/badge.svg)](https://github.com/xy-b612/mental-health-admin-test/actions/workflows/api-test.yml)
 
-  ▎ 报告地址格式：https://<xy-b612>.github.io/<mental-health-admin-test>/
+📊 **[在线测试报告](https://xy-b612.github.io/mental-health-admin-test/)**
 
 > 针对 mental-health-admin（Vue 3 心理健康平台）的完整测试产出物，包含**手工功能测试** + **接口自动化测试**（pytest + requests）。
 
