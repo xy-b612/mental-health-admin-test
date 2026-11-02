@@ -1,4 +1,5 @@
 import allure
+import pytest
 import requests
 from config import BASE_URL, CODE_SUCCESS
 
@@ -27,7 +28,7 @@ def test_diary_create(token):
     data = resp.json()
     assert data["code"] == CODE_SUCCESS, f"提交日记失败：{data}"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-004：缺评分可提交", strict=True)
 @allure.feature("情绪日记")
 @allure.story("新增日记")
 @allure.title("IF_DIARY_002 缺 moodScore 提交（BUG-004）")
@@ -52,7 +53,7 @@ def test_diary_create_empty_moodScore(token):
     data = resp.json()
     assert data["code"] != CODE_SUCCESS, f"moodScore为空，但是日记提交成功：{data}"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-004：缺情绪可提交", strict=True)
 @allure.feature("情绪日记")
 @allure.story("新增日记")
 @allure.title("IF_DIARY_003 缺 dominantEmotion 提交（BUG-004）")

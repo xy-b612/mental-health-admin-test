@@ -1,4 +1,5 @@
 import allure
+import pytest
 import requests
 from config import BASE_URL, CODE_SUCCESS
 
@@ -157,7 +158,7 @@ def test_session_chat(token):
         assert data["code"] == CODE_SUCCESS, f"获取会话消息失败：{data}"
         assert data["data"], "消息列表为空"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-008：查不存在会话返回成功", strict=True)
 @allure.feature("心理咨询")
 @allure.story("会话消息")
 @allure.title("IF_SESSION_009 获取不存在的会话消息（BUG-008）")

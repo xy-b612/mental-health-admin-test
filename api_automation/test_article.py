@@ -1,4 +1,5 @@
 import allure
+import pytest
 import requests
 from config import BASE_URL, CODE_SUCCESS
 
@@ -332,7 +333,7 @@ def test_article_delete_emptyId(token):
     data = resp.json()
     assert data["code"] != CODE_SUCCESS
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-010：纵向越权",strict=True)
 @allure.feature("知识文章")
 @allure.story("权限校验（越权）")
 @allure.title("IF_ARTICLE_014 普通用户越权新增文章（BUG-010）")

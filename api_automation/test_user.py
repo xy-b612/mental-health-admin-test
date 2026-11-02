@@ -2,6 +2,7 @@
 """用户接口测试：登录 / 登出（对应 IF_USER_001~004、009~010）
 """
 import allure
+import pytest
 import requests
 from config import BASE_URL, TEST_USERNAME, TEST_PASSWORD, CODE_SUCCESS
 
@@ -77,7 +78,7 @@ def test_logout_with_token(token):
     data = resp.json()
     assert data["code"] == CODE_SUCCESS, f"登出失败：{data}"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-006： 登出无鉴权", strict=True)
 @allure.feature("用户接口")
 @allure.story("登出")
 @allure.title("IF_USER_010 无 Token 登出-应被拦截")

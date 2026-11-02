@@ -1,6 +1,7 @@
 import allure
 import requests
 import time
+import pytest
 
 from config import BASE_URL, CODE_SUCCESS
 
@@ -26,7 +27,7 @@ def test_register_success():
     data = resp.json()
     assert data["code"] == CODE_SUCCESS, f"注册失败：{data}"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-007：缺email可注册",strict=True)
 @allure.feature("用户接口")
 @allure.story("注册")
 @allure.title("IF_USER_006 缺 email 注册")
@@ -47,7 +48,7 @@ def test_register_empty_email():
     data = resp.json()
     assert data["code"] != CODE_SUCCESS, f"注册成功：{data}"
 
-
+@pytest.mark.xfail(reason="已知缺陷 BUG-001：注册邮箱格式未校验", strict=True)
 @allure.feature("用户接口")
 @allure.story("注册")
 @allure.title("IF_USER_007 非法邮箱格式注册（BUG-001）")
