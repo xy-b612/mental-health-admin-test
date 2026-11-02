@@ -9,6 +9,17 @@ on:
     - cron: '17 18 * * *'
   workflow_dispatch:
 
+# 🆕 权限：允许写入 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 🆕 并发：避免多次部署冲突
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   api-test:
     runs-on: ubuntu-latest
@@ -34,13 +45,42 @@ jobs:
           TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
         run: |
-          pytest --version
           pytest --alluredir=allure-results -v
 
-      - name: 5. 上传 Allure 结果
+      # 🆕 5. 安装 Allure 命令行工具
+      - name: 5. 安装 Allure CLI
+        if: always()
+        run: npm install -g allure-commandline
+
+      # 🆕 6. 生成 HTML 报告
+      - name: 6. 生成 Allure 报告
+        if: always()
+        run: allure generate api_automation/allure-results -o allure-report --clean
+
+      - name: 7. 上传原始结果（备份）
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: api_automation/allure-results
           retention-days: 7
+
+      # 🆕 8. 上传 Pages 产物
+      - name: 8. 上传 Pages 产物
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  # 🆕 9. 独立的部署任务
+  deploy:
+    if: always()
+    needs: api-test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
